@@ -71,7 +71,7 @@ export const roseData = {
     },
     {
       id: 6,
-      moment: "Dr. Abeer Elafandy",
+      moment: "Dr. Abeer ",
       momentEn: "The ultimate support",
       year: "2026",
       detail:

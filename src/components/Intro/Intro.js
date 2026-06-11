@@ -527,7 +527,7 @@ export default function Intro({ onComplete }) {
             transition: "opacity 0.3s ease",
           }}
         >
-          {"Abeer Elafandy".split("").map((char, i) => (
+          {"Abeer".split("").map((char, i) => (
             <span
               key={i}
               style={{
