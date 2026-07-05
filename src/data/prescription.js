@@ -4,7 +4,7 @@ export const prescription = {
     date: "2026",
     hospital: "Faculty of Pharmacy",
   },
-  patient: "Abeer ",
+  patient: "Mariam ",
   items: [
     { label: "Rx", value: "5 Years of Pure Dedication" },
     { label: "Dose", value: "24 hours of passion, daily" },

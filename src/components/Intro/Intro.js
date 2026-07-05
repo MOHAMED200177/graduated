@@ -72,7 +72,7 @@ const ELEMENTS = [
   { s: "Ac", n: 89 },
 ];
 
-const HERO = ["Ar", "Be", "Er"];
+const HERO = ["Mg", "Ir", "Ra"]; // Ma + ri + am = Mariam
 const PALETTE = ["#C2185B", "#4DD0C4", "#F8BBD9", "#C9A84C"];
 
 export default function Intro({ onComplete }) {
@@ -91,8 +91,6 @@ export default function Intro({ onComplete }) {
     arSplitting: false,
     arSplitT: 0,
     arSplitDone: false,
-    showSmallA: false,
-    showSmallR: false,
   });
 
   useEffect(() => {
@@ -182,7 +180,6 @@ export default function Intro({ onComplete }) {
       S.elements = [];
       const cols = 9,
         rows = 8;
-      // التعديل الأول: تكبير الحد الأقصى للمربع لـ 65 بدلاً من 58 لتكبير بساط
       const cellW = Math.min((W * 0.92) / cols, 65);
       const cellH = cellW * 1.12;
       const startX = (W - cols * cellW) / 2;
@@ -211,7 +208,13 @@ export default function Intro({ onComplete }) {
             eliminated: false,
             elimT: 0,
             glowPhase: Math.random() * Math.PI * 2,
-            displayOverride: null,
+            displayOverride: isHero
+              ? d.s === "Mg"
+                ? "Ma"
+                : d.s === "Ir"
+                  ? "ri"
+                  : "am"
+              : null,
           });
         }
       }
@@ -252,24 +255,24 @@ export default function Intro({ onComplete }) {
     }
 
     function computeHeroTargets() {
-      const arEl = S.elements.find((e) => e.s === "Ar");
-      const beEl = S.elements.find((e) => e.s === "Be");
-      const erEl = S.elements.find((e) => e.s === "Er");
+      const mgEl = S.elements.find((e) => e.s === "Mg");
+      const irEl = S.elements.find((e) => e.s === "Ir");
+      const raEl = S.elements.find((e) => e.s === "Ra");
 
       const spacing = Math.min(W * 0.18, 100);
       const startX = W / 2 - spacing;
 
-      if (arEl) {
-        arEl.finalX = startX;
-        arEl.finalY = H / 2;
+      if (mgEl) {
+        mgEl.finalX = startX;
+        mgEl.finalY = H / 2;
       }
-      if (beEl) {
-        beEl.finalX = startX + spacing;
-        beEl.finalY = H / 2;
+      if (irEl) {
+        irEl.finalX = startX + spacing;
+        irEl.finalY = H / 2;
       }
-      if (erEl) {
-        erEl.finalX = startX + spacing * 2;
-        erEl.finalY = H / 2;
+      if (raEl) {
+        raEl.finalX = startX + spacing * 2;
+        raEl.finalY = H / 2;
       }
     }
 
@@ -299,26 +302,21 @@ export default function Intro({ onComplete }) {
       }
 
       if (S.act === 1) {
-        const arEl = S.elements.find((e) => e.s === "Ar");
-
         if (!S.arSplitting && !S.arSplitDone && S.t > 2.5) {
-          if (arEl) arEl.glowPhase = 0;
           S.arSplitting = true;
           S.arSplitT = 0;
         }
 
         if (S.arSplitting) {
           S.arSplitT += dt;
-          if (arEl) {
-            arEl.glowPhase += dt * 3;
-            if (S.arSplitT > 1.2) {
-              arEl.displayOverride = "A";
-              spawnBurst(arEl.x - arEl.cellW * 0.2, arEl.y);
-            }
-            if (S.arSplitT > 2.0) {
-              S.arSplitting = false;
-              S.arSplitDone = true;
-            }
+          S.elements
+            .filter((e) => e.isHero)
+            .forEach((e) => {
+              e.glowPhase += dt * 3;
+            });
+          if (S.arSplitT > 1.8) {
+            S.arSplitting = false;
+            S.arSplitDone = true;
           }
         }
 
@@ -398,8 +396,6 @@ export default function Intro({ onComplete }) {
       ctx.translate(e.x, e.y);
       ctx.scale(e.scale, e.scale);
       ctx.globalAlpha = e.opacity;
-
-      // التعديل الثاني: زيادة نسبة الامتلاء لـ 90% بدل 86%
       const cw = e.cellW * 0.9,
         ch = e.cellH * 0.9;
 
@@ -411,10 +407,9 @@ export default function Intro({ onComplete }) {
         ctx.lineWidth = 1.5;
         ctx.fillStyle = "rgba(194,24,91,0.08)";
       } else {
-        // التعديل الثالث: تقليل الشفافية (يعني زيادة الأرقام عشان تكون أوضح وأبرز)
-        ctx.strokeStyle = "rgba(248,187,217,0.25)"; // كانت 0.12
-        ctx.lineWidth = 0.8; // كانت 0.5
-        ctx.fillStyle = "rgba(255,255,255,0.05)"; // كانت 0.02
+        ctx.strokeStyle = "rgba(248,187,217,0.25)";
+        ctx.lineWidth = 0.8;
+        ctx.fillStyle = "rgba(255,255,255,0.05)";
       }
 
       ctx.fillRect(-cw / 2, -ch / 2, cw, ch);
@@ -424,7 +419,7 @@ export default function Intro({ onComplete }) {
       const displaySym = e.displayOverride || e.s;
       ctx.fillStyle = e.isHero
         ? "rgba(248,187,217,1)"
-        : "rgba(255,255,255,0.45)"; // كانت 0.3 (أوضحنا لون الرمز)
+        : "rgba(255,255,255,0.45)";
       ctx.font = `${e.isHero ? "600 " : ""}${Math.round(cw * 0.34)}px Cormorant Garamond, serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
@@ -432,7 +427,7 @@ export default function Intro({ onComplete }) {
 
       ctx.fillStyle = e.isHero
         ? "rgba(248,187,217,0.65)"
-        : "rgba(255,255,255,0.3)"; // كانت 0.2 (أوضحنا لون الرقم)
+        : "rgba(255,255,255,0.3)";
       ctx.font = `${Math.round(cw * 0.17)}px DM Sans, sans-serif`;
       ctx.fillText(e.n, 0, -cw * 0.27);
       ctx.restore();
@@ -515,7 +510,6 @@ export default function Intro({ onComplete }) {
         }}
       >
         <h1
-          id="name-reveal"
           style={{
             fontFamily: "Cormorant Garamond, serif",
             fontSize: "clamp(2rem, 6vw, 5rem)",
@@ -527,7 +521,7 @@ export default function Intro({ onComplete }) {
             transition: "opacity 0.3s ease",
           }}
         >
-          {"Abeer".split("").map((char, i) => (
+          {"Mariam".split("").map((char, i) => (
             <span
               key={i}
               style={{
@@ -573,27 +567,27 @@ export default function Intro({ onComplete }) {
       </p>
 
       <style>{`
-  @keyframes pulse{0%,100%{opacity:0.25}50%{opacity:0.55}}
-  @keyframes typeIn{
-    0%{
-      opacity:0;
-      transform: translateY(20px) scale(0.8);
-      filter: blur(8px);
-      text-shadow: 0 0 20px rgba(194,24,91,0.8);
-    }
-    60%{
-      opacity:1;
-      filter: blur(0px);
-      text-shadow: 0 0 40px rgba(194,24,91,0.6);
-    }
-    100%{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      filter: blur(0px);
-      text-shadow: 0 0 10px rgba(194,24,91,0.3);
-    }
-  }
-`}</style>
+        @keyframes pulse{0%,100%{opacity:0.25}50%{opacity:0.55}}
+        @keyframes typeIn{
+          0%{
+            opacity:0;
+            transform: translateY(20px) scale(0.8);
+            filter: blur(8px);
+            text-shadow: 0 0 20px rgba(194,24,91,0.8);
+          }
+          60%{
+            opacity:1;
+            filter: blur(0px);
+            text-shadow: 0 0 40px rgba(194,24,91,0.6);
+          }
+          100%{
+            opacity:1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+            text-shadow: 0 0 10px rgba(194,24,91,0.3);
+          }
+        }
+      `}</style>
     </section>
   );
 }

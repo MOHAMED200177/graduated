@@ -1,7 +1,7 @@
 export const personalInfo = {
   name: {
-    en: "Abeer ",
-    ar: "عبير ",
+    en: "Mariam",
+    ar: "مريم",
   },
   title: {
     en: "Faculty of Pharmacy",
@@ -25,7 +25,6 @@ export const personalInfo = {
   graduationDate: "2026",
   coverImage: "/images/cover.jpg",
   profileImage: "/images/profile.jpg",
-
   credits: [
     { name: "me", role: "Developer & Creative Director" },
     {

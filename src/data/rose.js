@@ -71,11 +71,11 @@ export const roseData = {
     },
     {
       id: 6,
-      moment: "Dr. Abeer ",
+      moment: "Dr. Mariam ",
       momentEn: "The ultimate support",
       year: "2026",
       detail:
-        "د. عبير الأفندي — الاسم اللي كان مصدر إلهام ودعم حقيقي.. كلمات غيرت كل حاجة في نهاية الرحلة.",
+        "الاسم اللي كان مصدر إلهام ودعم حقيقي.. كلمات غيرت كل حاجة في نهاية الرحلة.",
       color: "#880E4F",
       angle: 270,
     },

@@ -174,7 +174,7 @@ export default function Gallery() {
             fontWeight: 300,
           }}
         >
-          Dr. Abeer's Journey
+          Dr. Mariam's Journey
         </h2>
       </div>
 

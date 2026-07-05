@@ -62,9 +62,8 @@ export const timeline = [
     year: "2026",
     title: "She Made It",
     titleAr: "عملتها",
-    description:
-      "Dr. Abeer Elafandy. The title she earned with every tear and every triumph.",
-    descriptionAr: "د. عبير الأفندي. اللقب اللي استحقته بكل دمعة وكل انتصار.",
+    description: " The title she earned with every tear and every triumph.",
+    descriptionAr: " اللقب اللي استحقته بكل دمعة وكل انتصار.",
     element: "Dr",
     elementNumber: "✦",
     color: "#C2185B",
